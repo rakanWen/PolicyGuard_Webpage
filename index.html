@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
+  <!-- Replace the content tag with appropriate information -->
+  <meta name="description" content="Learning Human-Perceived Fakeness in Generated Videos with Multimodal LLMs">
+
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
+  <!-- Keywords for your paper to be indexed by-->
+  <meta name="keywords" content="Visual Generation, Vision and Language Reasoning, Vision Language Model, LLM, VLM, Visual Chain of Thought, Visual Prompting">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <title>LVR</title>
+  <!-- Google Tag Manager -->
+  <script>(function (w, d, s, l, i) {
+    w[l] = w[l] || []; w[l].push({
+      'gtm.start':
+        new Date().getTime(), event: 'gtm.js'
+    }); var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+        'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+  })(window, document, 'script', 'dataLayer', 'GTM-MFCT45H');</script>
+  <!-- End Google Tag Manager -->
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="stylesheet" href="./static/css/dataTables.bulma.css">
+  <link rel="icon" href="./static/images/lvr_icon.png">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+          onload="renderMathInElement(document.body);"></script>
+  </head>
+  <body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MFCT45H" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://zeyofu.github.io/">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://zeyofu.github.io/blink/">
+            BLINK
+          </a>
+        </div>
+
+
+      </div>
+    </div>
+
+  </div>
+  </nav>
+
+<!-- <nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://yushi-hu.github.io">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://finegrainedrlhf.github.io/">
+            Fine-Grained RLHF (NeurIPS 2023)
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav> -->
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-2 publication-title"><img src="static/images/lvr_icon.png" width="100" /><font color="#96482c"> Latent Visual Reasoning</font>: Multimodal reasoning in the joint semantic space</h2>
+            <div class="is-size-5 publication-authors">
+              <!-- Paper authors -->
+                <span class="author-block">
+                  <a href="https://vincentleebang.github.io/" target="_blank"><font color="#B082C9"><b>Bangzheng Li</b></font></a><sup class="ucd-sup">&mu;</sup><a href="mailto:bzhli@ucdavis.edu" style="margin-left: 5px;"><i class="fas fa-envelope" style="color: #B082C9;"></i></a>&emsp;
+                </span>
+
+                <span class="author-block">
+                 <a href="https://scholar.google.com/citations?user=XoY8DLwAAAAJ&hl=en" target="_blank"><font color="#B082C9"><b>Ximeng Sun</b></font></a><sup class="amd-sup">&alpha;</sup>&emsp;
+                </span>
+
+                <span class="author-block">
+                  <a href="https://joellliu.github.io" target="_blank"><a href="" target="_blank"><font color="#B082C9"><b>Jiang Liu</b></font></a><sup class="amd-sup">&alpha;</sup>&emsp;
+                 </span>
+                 
+                 <span class="author-block">
+                  <a href="https://zewang95.github.io/" target="_blank"></a><a href="" target="_blank"><font color="#B082C9"><b>Ze Wang</b></font></a><sup class="amd-sup">&alpha;</sup>&emsp;
+                 </span>
+                 
+                 <span class="author-block">
+                  <a href="https://jialianwu.com/" target="_blank"></a><a href="" target="_blank"><font color="#B082C9"><b>Jialian Wu</b></font></a><sup class="amd-sup">&alpha;</sup>&emsp;
+                 </span>
+                 
+                 <span class="author-block">
+                  <a href="https://www.xiaodongyu.me/" target="_blank"></a><a href="" target="_blank"><font color="#B082C9"><b>Xiaodong Yu</b></font></a><sup class="amd-sup">&alpha;</sup>&emsp;
+                 </span>
+                 
+                 <span class="author-block">
+                  <a href="https://scholar.google.com/citations?user=tktqkhwAAAAJ&hl=en" target="_blank"></a><a href="" target="_blank"><font color="#B082C9"><b>Hao Chen</b></font></a><sup class="amd-sup">&alpha;</sup>&emsp;
+                 </span>
+                 
+                 <span class="author-block">
+                  <a href="https://scholar.google.com/citations?user=bX1YILcAAAAJ&hl=en" target="_blank"></a><a href="" target="_blank"><font color="#B082C9"><b>Emad Barsoum</b></font></a><sup class="amd-sup">&alpha;</sup>&emsp;
+                 </span>
+                 
+                 <span class="author-block">
+                  <a href="https://muhaochen.github.io/" target="_blank"></a><a href="" target="_blank"><font color="#B082C9"><b>Muhao Chen</b></font></a><sup class="amd-sup">&mu;</sup>&emsp;
+                 </span>
+                 
+                 <span class="author-block">
+                  <a href="https://zicliu.wixsite.com/mysite" target="_blank"></a><a href="" target="_blank"><font color="#B082C9"><b>Zicheng Liu</b></font></a><sup class="amd-sup">&alpha;</sup>&emsp;
+                 </span>
+                 
+                </div>
+                <br>
+                <div class="is-size-5 publication-authors">
+                  <span class="author-block">
+                    <sup class="ucd-sup">&mu;</sup><img src="static/images/ucd_logo.png" width="170" />&emsp;
+                    <sup class="amd-sup">&alpha;</sup><img src="static/images/amd_logo.png" width="170" />&emsp;
+                    <!-- <sup>*</sup>Equal Contribution&emsp;
+                    <sup>†</sup>Equal Advising -->
+                  </span>
+                  <br>
+                  <!-- <span class="author-block">
+                    <h1 class="title is-4"><font color="#B03A2E"><b>ICML 2025</b></font></h1>
+                  </span> -->
+                </div>
+
+                  <div class="content has-text-centered">
+                    <div class="publication-links">
+                      <span class="link-block">
+                        <a href="https://arxiv.org/pdf/2509.24251" target="_blank"
+                        class="external-link button is-normal is-rounded is-dark">
+                        <span class="icon">
+                          <i class="ai ai-arxiv"></i>
+                        </span>
+                        <span>Paper</span>
+                      </a>
+                    </span>
+
+                    <span class="link-block">
+                      <a href="https://github.com/VincentLeebang/lvr" target="_blank"
+                      class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fab fa-github"></i>
+                      </span>
+                      <span>Code</span>
+                    </a>
+                    </span>
+  
+                    <span class="link-block">
+                      <a href="https://huggingface.co/datasets/DeepTraceReward/RewardData" target="_blank"
+                      class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        🤗
+                      </span>
+                      <span>Model Coming Soon</span>
+                    </a>
+                  </span>
+
+                <!-- <span class="link-block">
+                  <a href="https://huggingface.co/DeepTraceReward/RewardModel" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fas fa-globe"></i>
+                  </span>
+                  <span>Model Checkpoint</span>
+                  </a>
+                </span> -->
+
+                <!-- <span class="link-block">
+                  <a href="https://twitter.com/XingyuFu2/status/1781368539213082683" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fab fa-twitter"></i>
+                  </span>
+                  <span>Twitter</span>
+                  </a>
+                </span> -->
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Teaser image-->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <div class="notification is-info is-light" style="margin-top: 2rem; margin-bottom: 2rem;">
+        <p class="subtitle has-text-centered">
+          <h2 class="title is-3 has-text-centered">If visual and textual tokens are embedded in a joint semantics space, why not reasoning over both as well?</h2>
+
+        </p>
+      </div>
+      <h2 class="subtitle has-text-justified">
+        <span style="font-weight:bold;">LVR</span> enables autoregressive reasoning directly in the visual and textual semantic space. In the LVR phase, the LLM leverages the last hidden states to approximate the question-relevant semantics within the visual inputs. During the text generation phase, the model predicts the next text token in sequence. Jointly reasoning over both modalities leads to better multimodal reasoning performance.
+      </h2>
+      <img src="static/images/lvr_teaser.svg" alt="Main figure for the project" style="width:100%; height:auto;"/>
+
+
+
+      </div>
+  </div>
+</section>
+<!-- End teaser image -->
+
+<!-- Video comparison section -->
+<!-- <section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <h2 class="title is-3 has-text-centered">Human-Perceived Fake Traces</h2>
+      <div class="columns is-centered">
+        <div class="column is-half">
+          <video autoplay muted loop controls style="width: 105%;">
+            <source src="static/videos/sora.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <h3 class="subtitle has-text-centered">Original Video</h3>
+        </div>
+        <div class="column is-half">
+          <video autoplay muted loop controls style="width: 95%;">
+            <source src="static/videos/annotated_sora.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <h3 class="subtitle has-text-centered">Annotated Video</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+<!-- End video comparison section -->
+
+<!-- Teaser video-->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <video poster="" id="tree" autoplay controls muted loop style="width: 85%;">
+        <source src="static/videos/LVR.mp4"
+        type="video/mp4">
+      </video>
+      <h2 class="subtitle has-text-centered">
+        Brief illustrative video introduction about <span style="font-weight:bold;">LVR</span>.*
+      </h2>
+    </div>
+  </div>
+</section>
+<!-- End teaser video -->
+
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-five-sixths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            <strong>Can Multimodal LLMs truly perform multimodal reasoning?</strong>
+            We introduce <span style="background-color: #f0f8ff; padding: 2px 4px; border-radius: 3px;"><strong>Latent Visual Reasoning</strong></span> (LVR), a new paradigm that enables autoregressive reasoning directly in the visual embedding space. A visual encoder first projects images into visual tokens within a joint semantic space shared with the language model. The language model is then trained to generate latent states that reconstruct key visual tokens critical for answering the query, constituting the process of latent visual reasoning. By interleaving LVR with standard text generation, our model achieves substantial gains on perception-intensive visual question answering tasks. In addition, we adapt the GRPO algorithm to conduct reinforcement learning on latent reasoning, further balancing LVR and textual generation. We show that LVR substantially improves fine-grained visual understanding and perception, achieving <span style="background-color: #e8f5e8; padding: 2px 4px; border-radius: 3px;"><strong> 71.67% on MMVP compared to 66.67% with Qwen2.5-VL</strong></span>. 
+          </p>
+          
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+
+
+<!-- Paper Qualitative -->
+<section class="section hero">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-five-sixths">
+        <h2 class="title is-3">Model Architecture</h2>
+        <img src="static/images/lvr_main.svg" width="90%"/>
+        <!-- <img src="static/images/example2.png" width="100%"/> -->
+        <h2 class="content has-text-centered">
+          <span style="font-size: 1.2em; font-weight: bold; color: #96482c;">
+            The LVR model is purely autoregressive.
+          </span>
+        <div class="content has-text-justified" style="margin-top: 1em;">
+          <p>
+            The overall framework closely follows a standard MLLM. Images are encoded into tokens by a visual encoder and mapped into a joint semantic space with text embeddings. During the <b>SFT</b> stage, bounding boxes are provided to identify query-relevant visual tokens, which supervise the last hidden states in the LVR process. Here, only the LLM’s last hidden states are passed forward for latent reasoning, optimized with a Mean Squared Error loss. The LVR process is wrapped with special tokens that indicate reasoning mode. Once all query-relevant visual tokens are consumed, the model exits LVR and resumes standard text generation with cross-entropy loss. During <b>RL</b> training, the model self-evolves the LVR process learned in SFT, while only the text generation part is supervised, using our adapted <span>GRPO<sub>latent</sub></span>. At inference, the model triggers LVR upon generating the special token, propagates hidden states to reconstruct visual semantics, and resumes text generation when a stopping criterion is met.
+          </p>
+        </div>
+
+        </h2>
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Paper Qualitative -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-five-sixths">
+        <h2 class="title is-3"><span>GRPO<sub>latent</sub></span> for RL on latent reasoning models</h2>
+        <img src="static/images/grpo_latent.png" width="80%"/>
+        <h2 class="content has-text-justified">
+          One key challenge in applying RL to latent reasoning models is that the token distribution over latent reasoning positions is not semantically meaningful. To address this, we propose <span>GRPO<sub>latent</sub></span>, which computes log probabilities only for textual tokens during the generation phase. Since text generation is conditioned on the LVR process, the latent reasoning steps are indirectly optimized through the policy gradient signal. The reward function combines an accuracy reward on VQA tasks with a format reward that encourages the activation of latent reasoning (<|lvr_start|>...<|lvr_end|>), making the latter serve not only as a response-format constraint but also as a mechanism to promote latent reasoning behavior.
+        </h2>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Paper Analysis -->
+<!-- <section class="section hero">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <h2 class="title is-3"> <b>DeeptraceReward</b> Statistics </h2> <br>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-five-sixths">
+        <p>
+          The dataset consists of <b>4,334 fake videos</b> generated by six state-of-the-art T2V models and <b>3,318 real videos</b> sourced from LLaVA-Video-178K (Zhang et al., 2024) for training. For both sources, we report: the number of videos, the proportion with human-written explanations, average resolution (mean height and width), average video length (seconds), and average length of annotated fake clues (based on start/end timestamps). The dataset features substantial diversity in both resolution and temporal duration across models.
+        <br
+        </p>  
+        <br>
+        <div class="columns is-centered has-text-centered">
+        <img src="static/images/statistics.png" width="90%"/> </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+
+<!-- Paper Qualitative -->
+<section class="section hero">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-five-sixths">
+        <h2 class="title is-3">Experiment Results</h2>
+        <img src="static/images/lvr_exp.png" width="90%"/>
+        <br>
+        <h2 class="content has-text-justified">
+          LVR achieves state-of-the-art performance, surpassing open-source baselines built on the same MLLMs. It shows strong detail-understanding on $V^$ and robust perception on MMVP, highlighting that reconstructing visual semantics is more effective than relying on external visual-editing tools (as in “Think with Images’’) for fine-grained understanding. Moreover, CoT-based approaches such as PAPO and Vision-R1 degrade on $V^$, suggesting that textual-space CoT may cause cross-modal interference, whereas LVR avoids this by reasoning jointly across modalities.
+        </h2>
+        <br>
+          <!-- <img src="static/images/category.png" width="90%"/> -->
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- <section class="hero is-small">
+  <div class="container is-max-desktop content">
+    <br>
+    <h2 class="title is-3">Related Work</h2>
+    <ul>
+      <li> <a href="https://visualsketchpad.github.io/">Visual Sketchpad: Sketching as a Visual Chain of Thought for Multimodal Language Models</a></li>
+      <li> <a href="https://prior.allenai.org/projects/visprog">Visual Programming for Compositional Visual Reasoning</a></li>
+      <li> <a href="https://viper.cs.columbia.edu/">ViperGPT: Visual Inference via Python Execution for Reasoning</a></li>
+      <li> <a href="https://arxiv.org/abs/2210.03629">ReAct: Synergizing Reasoning and Acting in Language Models</a></li>
+      <li> <a href="https://whiteboard.cs.columbia.edu/">Whiteboard-of-Thought: Thinking Step-by-Step Across Modalities</a></li>
+      <li> <a href="https://arxiv.org/abs/2404.19205">TableVQA-Bench: A Visual Question Answering Benchmark on Multiple Table Domains</a> </li>
+      <li> <a href="https://arxiv.org/abs/2203.10244">ChartQA: A Benchmark for Question Answering about Charts with Visual and Logical Reasoning</a> </li>
+      <li> <a href="https://charxiv.github.io/">CharXiv: Charting Gaps in Realistic Chart Understanding in Multimodal LLMs</a> </li>
+      <li> <a href="https://huggingface.co/microsoft/Phi-3.5-vision-instruct">Phi-3.5-vision Model</a> </li>
+      <li> <a href="https://github.com/deepcs233/Visual-CoT">Visual CoT: Advancing Multi-Modal Language Models with a Comprehensive Dataset and Benchmark for Chain-of-Thought Reasoning</a> </li>
+      <li> <a href="https://microsoft.github.io/visualization-of-thought/#/">Mind's Eye of LLMs: Visualization-of-Thought Elicits Spatial Reasoning in Large Language Models</a> </li>
+    </ul>
+  </div>
+</section> -->
+
+<!--BibTex citation -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><bibtexcode>
+        To Add Soon.
+      </bibtexcode></pre>
+    </div>
+</section>
+<!--End BibTex citation -->
+
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+
+          <p>
+            *Video generated by SORA 2.
+            
+          </p>
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Statcounter tracking code -->
+  
+<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+    <!-- End of Statcounter Code -->
+
+    <script src="./static/js/bulma-carousel.min.js"></script>
+    <script src="./static/js/bulma-slider.min.js"></script>
+  
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.bundle.min.js"></script>
+    <script src="./static/js/jquery.csv.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bulma.min.js"></script>
+    <script src="./static/js/csv_to_html_table.js"></script>
+    <script>
+      CsvToHtmlTable.init({
+        csv_path: 'static/val_result.csv', 
+        element: 'table-container', 
+        allow_download: true,
+        csv_options: {separator: ',', delimiter: '"'},
+        datatables_options: {
+          "paging": false, 
+          "order": [[1, 'desc']],
+          "columnDefs": [
+          {targets: [0], className: 'dt-left', className: 'dt-head-left'},
+          ]
+        }
+      });
+    </script>
+  
+  </body>
+  </html>

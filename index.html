@@ -8,7 +8,7 @@
 
   <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
   <!-- Keywords for your paper to be indexed by-->
-  <meta name="keywords" content="Visual Generation, Vision and Language Reasoning, Vision Language Model, LLM, VLM, Visual Chain of Thought, Visual Prompting">
+  <meta name="keywords" content="Policy Compliance, Autonomous Agents, Guardrail Models">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
@@ -88,36 +88,6 @@
   </div>
   </nav>
 
-<!-- <nav class="navbar" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-  <div class="navbar-menu">
-    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
-      <a class="navbar-item" href="https://yushi-hu.github.io">
-      <span class="icon">
-          <i class="fas fa-home"></i>
-      </span>
-      </a>
-
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">
-          More Research
-        </a>
-        <div class="navbar-dropdown">
-          <a class="navbar-item" href="https://finegrainedrlhf.github.io/">
-            Fine-Grained RLHF (NeurIPS 2023)
-          </a>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</nav> -->
 
 
   <section class="hero">
@@ -376,10 +346,10 @@
     <div class="columns is-centered has-text-centered">
       <div class="column is-five-sixths">
         <h2 class="title is-3">Benchmark Evaluation</h2>
-        <img src="static/images/PG_exp.png" width="95%"/>
+        <img src="static/images/PG_exp.png" width="90%"/>
         <br>
         <h2 class="content has-text-justified">
-          PolicyGuard-4B reaches <strong>90.1% accuracy</strong> and <strong>87.6% F1</strong>, while maintaining <strong>the lowest latency</strong> among all evaluated models. Compared to large foundation models such as Llama-3.3-70B-Instruct, which achieve similar scores at much higher inference cost, PolicyGuard-4B offers a far more efficient solution. Frontier models like Claude-Sonnet-4 and Gemini-1.5-Pro also perform strongly but remain closed-source and slower. In contrast, existing safety guardrails—including Llama Guard and ShieldGemma—show substantially lower effectiveness, with F1 often below 0.60.
+          PolicyGuard-4B reaches <strong>90.1% accuracy</strong> and <strong>87.6% F1</strong>, while maintaining <strong>the lowest latency (22.5 ms per example)</strong> among all evaluated models. Compared to large foundation models such as Llama-3.3-70B-Instruct, which achieve similar scores at much higher inference cost, PolicyGuard-4B offers a far more efficient solution. Frontier models like Claude-Sonnet-4 and Gemini-1.5-Pro also perform strongly but remain closed-source and slower. In contrast, existing safety guardrails—including Llama Guard and ShieldGemma—show substantially lower effectiveness, with F1 often below 0.60.
         </h2>
         <br>
           <!-- <img src="static/images/category.png" width="90%"/> -->
@@ -392,11 +362,11 @@
   <div class="container is-max-desktop">
     <div class="columns is-centered has-text-centered">
       <div class="column is-five-sixths">
-        <h2 class="title is-3">Benchmark Evaluation</h2>
-        <img src="static/images/PG_exp.png" width="95%"/>
+        <h2 class="title is-3">Prefix-Based Violation Detection</h2>
+        <img src="static/images/prefix_trends_brown.png" width="95%"/>
         <br>
         <h2 class="content has-text-justified">
-          PolicyGuard-4B reaches <strong>90.1% accuracy</strong> and <strong>87.6% F1</strong>, while maintaining <strong>the lowest latency</strong> among all evaluated models. Compared to large foundation models such as Llama-3.3-70B-Instruct, which achieve similar scores at much higher inference cost, PolicyGuard-4B offers a far more efficient solution. Frontier models like Claude-Sonnet-4 and Gemini-1.5-Pro also perform strongly but remain closed-source and slower. In contrast, existing safety guardrails—including Llama Guard and ShieldGemma—show substantially lower effectiveness, with F1 often below 0.60.
+          Prefix-based evaluation tests whether models can anticipate policy violations from early trajectory steps. As shown above, most foundation and guardrail models suffer clear accuracy drops as prefix length increases, with smaller models (e.g., Llama-3.2-3B, Qwen3-4B) falling below 0.6 by N=5. Larger models like Llama-3.3-70B and Qwen3-235B remain stronger but still decline. In contrast, <strong>PolicyGuard-4B</strong> sustains accuracy above 0.85 across all prefixes, showing robustness to both short prefixes and longer trajectories.
         </h2>
         <br>
           <!-- <img src="static/images/category.png" width="90%"/> -->
